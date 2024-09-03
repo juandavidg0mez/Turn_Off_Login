@@ -1,4 +1,4 @@
-package com.login.login.Auth;
+package com.login.login.Domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

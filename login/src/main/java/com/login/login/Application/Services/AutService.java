@@ -1,4 +1,4 @@
-package com.login.login.Auth;
+package com.login.login.Application.Services;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -6,10 +6,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.login.login.JTW.JwtService;
-import com.login.login.User.Rol;
-import com.login.login.User.User;
-import com.login.login.User.UserRepository;
+import com.login.login.Domain.AutResponse;
+import com.login.login.Domain.LoginRequest;
+import com.login.login.Domain.RegisterRequest;
+import com.login.login.Domain.Rol;
+import com.login.login.Domain.User;
+import com.login.login.Infrastructure.Repositories.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 

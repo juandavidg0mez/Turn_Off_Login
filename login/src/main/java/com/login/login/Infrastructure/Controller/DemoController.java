@@ -1,4 +1,4 @@
-package com.login.login.demo;
+package com.login.login.Infrastructure.Controller;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
