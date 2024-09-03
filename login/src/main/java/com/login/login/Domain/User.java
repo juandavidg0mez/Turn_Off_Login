@@ -1,4 +1,4 @@
-package com.login.login.User;
+package com.login.login.Domain;
 
 import java.util.Collection;
 import java.util.List;

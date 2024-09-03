@@ -1,4 +1,4 @@
-package com.login.login.JTW;
+package com.login.login.Application.Services;
 
 import java.security.Key;
 import java.util.Date;
@@ -19,7 +19,7 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService {
 
-    private static final String SECRET_KEY = "586E3272357538782F413F4428472B4B6250655368566B597033733676397924";
+    private static final String SECRET_KEY = "2A4D6251655468576D5A7134743677397A244326452948404D635166546A576E";
 
     public String getToken(UserDetails user) {
         return getToken(new HashMap<>(), user);
@@ -31,7 +31,7 @@ public class JwtService {
             .setClaims(extraClaims)
             .setSubject(user.getUsername())
             .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis()+1000*60*24))
+            .setExpiration(new Date(System.currentTimeMillis()+1000 * 60 * 60 * 24))
             .signWith(getKey(), SignatureAlgorithm.HS256)
             .compact();
     }

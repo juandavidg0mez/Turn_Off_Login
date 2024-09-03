@@ -1,4 +1,4 @@
-package com.login.login.Auth;
+package com.login.login.Infrastructure.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -6,6 +6,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.login.login.Application.Services.AutService;
+import com.login.login.Domain.AutResponse;
+import com.login.login.Domain.LoginRequest;
+import com.login.login.Domain.RegisterRequest;
 
 import lombok.RequiredArgsConstructor;
 

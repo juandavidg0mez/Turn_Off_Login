@@ -1,4 +1,4 @@
-package com.login.login.Config;
+package com.login.login.Infrastructure.Repositories;
 
 
 import org.springframework.context.annotation.Bean;
@@ -11,8 +11,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import com.login.login.User.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 

@@ -1,4 +1,4 @@
-package com.login.login.Auth;
+package com.login.login.Domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AutResponse {
-    String token;
+public class LoginRequest {
+    String username;
+    String password;
 }
