@@ -8,18 +8,16 @@ import org.springframework.stereotype.Service;
 
 import com.login.login.Application.Services.ICategoryService;
 import com.login.login.Domain.Categories;
-import com.login.login.Domain.Surveys;
-import com.login.login.Infrastructure.Repositories.Survey.SurveysRepository;
 
-import jakarta.transaction.Transactional;
+
+
 
 @Service
 public class CategoryAdapter implements ICategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
-       @Autowired
-    private SurveysRepository surveysRepository;
+
 
     @Override
     public List<Categories> findAll() {
@@ -67,24 +65,5 @@ public class CategoryAdapter implements ICategoryService {
 
     }
 
-    @Override
-    @Transactional
-    public void addCategory(Long surveyId, Long categoryId) {
-        Optional<Surveys> optionalSurvey = surveysRepository.findById(categoryId);
-        Optional<Categories> optionalCategory = categoryRepository.findById(categoryId);
 
-        if (optionalCategory.isPresent() && optionalSurvey.isPresent()) {
-            Surveys surveys = optionalSurvey.get();
-            Categories categories = optionalCategory.get();
-
-            //Tenemos que recordar que tipo de lacion tiene que abtrae a que y aodnde que remos redireccionar el ADD del objeto
-
-            categories.getSurveys().add(surveys);
-            categoryRepository.save(categories); 
-            // y aja Se guarda la category recordemos que estamos parados en la tabla de Surveys
-
-        }else{
-            throw new RuntimeException("Encuesta o categoría no encontrada");
-        }
-    }
 }
