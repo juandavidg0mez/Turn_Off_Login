@@ -15,12 +15,14 @@ import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 public class Categories {
     @Id
@@ -28,7 +30,7 @@ public class Categories {
     private Long id;
 
     @Embedded
-    Audit audit = new Audit();
+    Audit audit;
 
     @NotNull
     @NotEmpty(message = "Recuerda Rellenar estos Canmpos")
