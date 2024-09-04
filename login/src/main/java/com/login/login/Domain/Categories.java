@@ -4,6 +4,8 @@ package com.login.login.Domain;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
@@ -15,14 +17,12 @@ import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Entity
 public class Categories {
     @Id
@@ -30,13 +30,14 @@ public class Categories {
     private Long id;
 
     @Embedded
-    Audit audit;
+    Audit audit = new Audit();
 
     @NotNull
     @NotEmpty(message = "Recuerda Rellenar estos Canmpos")
     @Column(columnDefinition = "VARCHAR(225)")
     private String name;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "categories", cascade = CascadeType.ALL)
     private List<Surveys> surveys;
 
