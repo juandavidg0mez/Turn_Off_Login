@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.login.login.Application.Services.ISurveyService;
 import com.login.login.Domain.Surveys;
+import com.login.login.Domain.DTO.SurveyDTO;
 
 import jakarta.validation.Valid;
 
@@ -31,46 +32,48 @@ public class SurveysController {
     private ISurveyService iSurveyService;
 
     @GetMapping("/All")
-    public List<Surveys> listSurveys(){
+    public List<Surveys> listSurveys() {
         return iSurveyService.findAll();
     }
 
     @GetMapping("/Survey/{id}")
-    public ResponseEntity<?> findById(@PathVariable Long id){
+    public ResponseEntity<?> findById(@PathVariable Long id) {
         Optional<Surveys> sOptional = iSurveyService.findById(id);
-        if(sOptional.isPresent()){
+        if (sOptional.isPresent()) {
             ResponseEntity.ok(sOptional.orElseThrow());
         }
-        // Recordemos que este Return es el Else If de la estructura de validacion por eso mismo contruimos el error 400
+        // Recordemos que este Return es el Else If de la estructura de validacion por
+        // eso mismo contruimos el error 400
         return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id){
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         Optional<Surveys> sOptional = iSurveyService.findById(id);
         if (sOptional.isPresent()) {
             iSurveyService.deleteById(id);
             return ResponseEntity.ok().build();
-        }
-        else {
+        } else {
             return ResponseEntity.notFound().build();// El notfaund es un error 400 socio
         }
-    
 
-        // En este cvaso busca y hace una accion por eso es muy parecido o tama parte del metodo buscar para ejecutar la accion
+        // En este cvaso busca y hace una accion por eso es muy parecido o tama parte
+        // del metodo buscar para ejecutar la accion
         // por otro lado el otro Servicio solo busca
     }
 
     @PostMapping("/NewSurveys")
-    public ResponseEntity<?> create(@Valid @RequestBody Surveys surveys, BindingResult result){
-        if(result.hasFieldErrors()){
+    public ResponseEntity<?> create(@Valid @RequestBody Surveys surveys, BindingResult result) {
+        if (result.hasFieldErrors()) {
             return validation(result);
 
         }
-       return ResponseEntity.status(HttpStatus.CREATED).body(iSurveyService.save(surveys)); // El notfaund es un error 400 socio
+        return ResponseEntity.status(HttpStatus.CREATED).body(iSurveyService.save(surveys)); // El notfaund es un error
+                                                                                             // 400 socio
     }
+
     @PutMapping("update/{id}")
-    public ResponseEntity<?> update(@Valid @RequestBody Surveys surveys,BindingResult result, @PathVariable Long id){
+    public ResponseEntity<?> update(@Valid @RequestBody Surveys surveys, BindingResult result, @PathVariable Long id) {
         if (result.hasFieldErrors()) {
             return validation(result);
         }
@@ -81,10 +84,13 @@ public class SurveysController {
         return ResponseEntity.notFound().build();
     }
 
-    
-    
+    @PostMapping("/{id}/addCategory")
+    public ResponseEntity<?> addCategoryToSurvey(@PathVariable Long id, @RequestBody SurveyDTO surveyDTO) {
+        iSurveyService.addCategory(id, surveyDTO);
+        return ResponseEntity.ok().build();
+    }
 
-     private ResponseEntity<?> validation(BindingResult result) {
+    private ResponseEntity<?> validation(BindingResult result) {
         Map<String, String> errors = new HashMap<>();
 
         result.getFieldErrors().forEach(err -> {

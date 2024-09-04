@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.login.login.Domain.Surveys;
+import com.login.login.Domain.DTO.SurveyDTO;
 
 public interface ISurveyService 
 {
@@ -16,5 +17,7 @@ public interface ISurveyService
     Optional<Surveys> update(Long id, Surveys surveys);
 
     Optional<Surveys> findById(Long id);
+
+    void addCategory(Long surveysId, SurveyDTO surveyDTO);
 
 }

@@ -18,5 +18,4 @@ public interface ICategoryService {
 
     Optional<Categories> update(Long id, Categories category);
     
-    void addCategory(Long surveyId, Long categoryId);
 }

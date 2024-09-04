@@ -82,17 +82,6 @@ public class CategoryController {
         return ResponseEntity.notFound().build();// El notfaund es un error 400 socio
     }
 
-    @PostMapping("/{categoryId}/surveys/{surveyId}")
-    public ResponseEntity<?> addSurveyToCategory(@PathVariable Long categoryId, @PathVariable Long surveyId) {
-        try {
-            iCategoryService.addCategory(surveyId, categoryId);
-            return ResponseEntity.ok("Encuesta agregada a la categoría.");
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
-    }
-
-
     private ResponseEntity<?> validation(BindingResult result) {
         Map<String, String> errors = new HashMap<>();
 
