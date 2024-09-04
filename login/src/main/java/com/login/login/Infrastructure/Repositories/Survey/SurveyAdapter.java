@@ -7,10 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.login.login.Application.Services.ISurveyService;
-import com.login.login.Domain.Categories;
 import com.login.login.Domain.Surveys;
-import com.login.login.Domain.DTO.SurveyDTO;
-import com.login.login.Infrastructure.Repositories.Category.CategoryRepository;
+
 
 import jakarta.transaction.Transactional;
 
@@ -20,8 +18,6 @@ public class SurveyAdapter implements ISurveyService {
     @Autowired
     private SurveysRepository surveysRepository;
 
-    @Autowired
-    private CategoryRepository categoryRepository;
 
     @Override
     @Transactional
@@ -70,26 +66,6 @@ public class SurveyAdapter implements ISurveyService {
         return sOptional;
     }
 
-    @Override
-    @Transactional
-    public void addCategory(Long surveyId,SurveyDTO surveyDTO) {
-        Optional<Surveys> sOptional = surveysRepository.findById(surveyId);
-        Optional<Categories> cOptional = categoryRepository.findById(surveyDTO.getCategories_id());
-
-
-          if (sOptional.isPresent() && cOptional.isPresent()) {
-            Surveys survey = sOptional.get();
-            Categories category = cOptional.get();
-
-            // Asigna la categoría a la encuesta
-            survey.setCategories(category);
-            surveysRepository.save(survey);
-        } else {
-            throw new RuntimeException("Encuesta o categoría no encontrada");
-        }
-        
-    }
-
 }
 
 // @Override
@@ -101,3 +77,17 @@ public class SurveyAdapter implements ISurveyService {
 // }
 // return Optional.empty();
 // }
+// Optional<Surveys> sOptional = surveysRepository.findById(surveyId);
+//         Optional<Categories> cOptional = categoryRepository.findById(surveyDTO.getCategories_id());
+
+
+//           if (sOptional.isPresent() && cOptional.isPresent()) {
+//             Surveys survey = sOptional.get();
+//             Categories category = cOptional.get();
+
+//             // Asigna la categoría a la encuesta
+//             survey.setCategories(category);
+//             surveysRepository.save(survey);
+//         } else {
+//             throw new RuntimeException("Encuesta o categoría no encontrada");
+//         }

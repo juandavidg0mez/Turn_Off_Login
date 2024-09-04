@@ -54,7 +54,7 @@ public class CategoryAdapter implements ICategoryService {
 
             // campos de la categoría existente
             existingCategory.setName(category.getName());
-            existingCategory.setAudit(category.getAudit());
+
         
 
             // categoría actualizada

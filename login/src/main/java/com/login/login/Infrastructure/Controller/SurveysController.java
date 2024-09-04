@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.login.login.Application.Services.ICategoryService;
 import com.login.login.Application.Services.ISurveyService;
+import com.login.login.Domain.Categories;
 import com.login.login.Domain.Surveys;
 import com.login.login.Domain.DTO.SurveyDTO;
 
@@ -30,6 +32,9 @@ public class SurveysController {
 
     @Autowired
     private ISurveyService iSurveyService;
+
+    @Autowired
+    private ICategoryService iCategoryService;
 
     @GetMapping("/All")
     public List<Surveys> listSurveys() {
@@ -84,10 +89,25 @@ public class SurveysController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/{id}/addCategory")
-    public ResponseEntity<?> addCategoryToSurvey(@PathVariable Long id, @RequestBody SurveyDTO surveyDTO) {
-        iSurveyService.addCategory(id, surveyDTO);
-        return ResponseEntity.ok().build();
+    @PostMapping("/insertSurvey")
+    public ResponseEntity<?> addCategoryToSurvey(@RequestBody SurveyDTO surveyDTO) {
+        Long categoyId = surveyDTO.getCategories_id();
+        Optional<Categories> cOptional = iCategoryService.findById(categoyId);
+
+        if (cOptional.isPresent()) {
+            Surveys surveys = new Surveys();
+
+            surveys.setName(surveyDTO.getName());
+            surveys.setDescription(surveyDTO.getDescription());
+            surveys.setAudit(surveyDTO.getAudit());
+            surveys.setCategories(cOptional.get());
+            Surveys createSurveys = iSurveyService.save(surveys);
+
+            return ResponseEntity.ok(createSurveys);
+            
+        }else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     private ResponseEntity<?> validation(BindingResult result) {
