@@ -33,35 +33,37 @@ public class Optionadapter implements IOptionService {
         return optionRepository.findAll();
     }
 
-    @Override
-    public Option_Question save(OptionsDTO optionsDTO) {
-        Long question_id = optionsDTO.getQuestion_id();
-        Optional<Question> opQuestion = questionRepository.findById(question_id);
+    // @Override
+    // public Option_Question save(OptionsDTO optionsDTO) {
+    // Long question_id = optionsDTO.getQuestion_id();
+    // Optional<Question> opQuestion = questionRepository.findById(question_id);
 
-        Long subQuestion_id = optionsDTO.getSubQuestion_id();
-        Optional<SubQuestion> opSubQuestion = subQuestionRepository.findById(subQuestion_id);
+    // Long subQuestion_id = optionsDTO.getSubQuestion_id();
+    // Optional<SubQuestion> opSubQuestion =
+    // subQuestionRepository.findById(subQuestion_id);
 
-        if (opQuestion.isPresent() || opSubQuestion.isPresent()) {
-            Option_Question option_Question = new Option_Question();
-            option_Question.setOptiontext(optionsDTO.getOptiontext());
-            option_Question.setAudit(optionsDTO.getAudit());
-    
-            // Asignar la pregunta si está presente
-            if (opQuestion.isPresent()) {
-                option_Question.setQuestion(opQuestion.get());
-            }
-    
-            // Asignar la subpregunta si está presente
-            if (opSubQuestion.isPresent()) {
-                option_Question.setSubQuestion(opSubQuestion.get());
-            }
-    
-            return optionRepository.save(option_Question);
-        } else {
-            throw new EntityNotFoundException("Debe proporcionar un ID válido para una pregunta o una subpregunta.");
-        }
+    // if (opQuestion.isPresent() || opSubQuestion.isPresent()) {
+    // Option_Question option_Question = new Option_Question();
+    // option_Question.setOptiontext(optionsDTO.getOptiontext());
+    // option_Question.setAudit(optionsDTO.getAudit());
 
-    }
+    // // Asignar la pregunta si está presente
+    // if (opQuestion.isPresent()) {
+    // option_Question.setQuestion(opQuestion.get());
+    // }
+
+    // // Asignar la subpregunta si está presente
+    // if (opSubQuestion.isPresent()) {
+    // option_Question.setSubQuestion(opSubQuestion.get());
+    // }
+
+    // return optionRepository.save(option_Question);
+    // } else {
+    // throw new EntityNotFoundException("Debe proporcionar un ID válido para una
+    // pregunta o una subpregunta.");
+    // }
+
+    // }
 
     @Override
     public void update(Long id, OptionsDTO optionsDTO) {
@@ -87,13 +89,10 @@ public class Optionadapter implements IOptionService {
             // Actualización si es Question
             Question question = existingQuestion.get();
 
-            
             question.setQuestion_text(optionsDTO.getOptiontext());
 
-            
             question.setAudit(optionsDTO.getAudit());
 
-            
             questionRepository.save(question);
         } else {
             // Si no se encuentra ni SubQuestion ni Question
@@ -118,4 +117,41 @@ public class Optionadapter implements IOptionService {
         return OptionalOption;
     }
 
+    @Override
+    public Option_Question saveForQuestion(OptionsDTO optionsDTO) {
+        Long subQuestion_id = optionsDTO.getSubQuestion_id();
+        Optional<SubQuestion> opSubQuestion = subQuestionRepository.findById(subQuestion_id);
+        Long question_id = optionsDTO.getQuestion_id();
+        Optional<Question> opQuestion = questionRepository.findById(question_id);
+
+        if (opQuestion.isPresent()) {
+            Option_Question option_Question = new Option_Question();
+            option_Question.setOptiontext(optionsDTO.getOptiontext());
+            option_Question.setSubQuestion(opSubQuestion.get());
+            option_Question.setAudit(optionsDTO.getAudit());
+            option_Question.setQuestion(opQuestion.get());
+
+            return optionRepository.save(option_Question);
+        } else {
+            throw new EntityNotFoundException("Pregunta con ID no encontrada.");
+        }
+    }
+
+    @Override
+    public Option_Question saveForSubQuestion(OptionsDTO optionsDTO) {
+        Long subQuestion_id = optionsDTO.getSubQuestion_id();
+        Optional<SubQuestion> opSubQuestion = subQuestionRepository.findById(subQuestion_id);
+
+        if (opSubQuestion.isPresent()) {
+            Option_Question option_Question = new Option_Question();
+            option_Question.setOptiontext(optionsDTO.getOptiontext());
+            option_Question.setAudit(optionsDTO.getAudit());
+            option_Question.setSubQuestion(opSubQuestion.get());
+
+            return optionRepository.save(option_Question);
+        } else {
+            throw new EntityNotFoundException("Subpregunta con ID no encontrada.");
+        }
+
+    }
 }

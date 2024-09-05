@@ -41,10 +41,29 @@ public class OptionController {
         }
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<?> createOptionQuestion(@Valid @RequestBody OptionsDTO optionsDTO) {
+    // @PostMapping("/create")
+    // public ResponseEntity<?> createOptionQuestion(@Valid @RequestBody OptionsDTO optionsDTO) {
+    //     try {
+    //         Option_Question createdOption = iOptionService.save(optionsDTO);
+    //         return ResponseEntity.ok(createdOption);
+    //     } catch (EntityNotFoundException e) {
+    //         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    //     }
+    // }
+    @PostMapping("/createForQuestion")
+    public ResponseEntity<?> createOptionForQuestion(@Valid @RequestBody OptionsDTO optionsDTO) {
         try {
-            Option_Question createdOption = iOptionService.save(optionsDTO);
+            Option_Question createdOption = iOptionService.saveForQuestion(optionsDTO);
+            return ResponseEntity.ok(createdOption);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/createForSubQuestion")
+    public ResponseEntity<?> createOptionForSubQuestion(@Valid @RequestBody OptionsDTO optionsDTO) {
+        try {
+            Option_Question createdOption = iOptionService.saveForSubQuestion(optionsDTO);
             return ResponseEntity.ok(createdOption);
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
