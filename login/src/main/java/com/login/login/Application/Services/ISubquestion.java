@@ -4,17 +4,17 @@ import java.util.List;
 import java.util.Optional;
 
 import com.login.login.Domain.SubQuestion;
+import com.login.login.Domain.DTO.SubquetionDTO;
 
 public interface ISubquestion {
     List<SubQuestion> findAll();
 
-    SubQuestion save(SubQuestion subQuestion);
+    SubQuestion save(SubquetionDTO subquetionDTO);
 
     Optional<SubQuestion> deleteById(Long id);
 
     Optional<SubQuestion> findByid(Long id);
 
-    Optional<SubQuestion> update(Long id, SubQuestion subQuestion);
+    void update(Long id, SubquetionDTO subquetionDTO);
 
-    void addSubQuestionTo(Long subid, Long QuestionId);
 }

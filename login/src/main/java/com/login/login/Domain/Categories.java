@@ -37,7 +37,6 @@ public class Categories {
     @Column(columnDefinition = "VARCHAR(225)")
     private String name;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "categories", cascade = CascadeType.ALL)
     private List<Surveys> surveys;
 

@@ -2,7 +2,7 @@ package com.login.login.Domain;
 
 import java.util.List;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -37,6 +37,7 @@ public class Chapters {
     private String chaper_title;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "surveys")
     private Surveys surveys;
 

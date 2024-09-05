@@ -44,12 +44,13 @@ public class Surveys {
 
     @Embedded
     Audit audit = new Audit();
-    
-    @JsonIgnore
+
+   
     @OneToMany(mappedBy = "surveys", cascade = CascadeType.ALL)
     private List<Chapters> chapters;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "categories_id")
     private Categories categories;
 
