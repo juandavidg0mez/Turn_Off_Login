@@ -18,5 +18,4 @@ public interface IQuestionService {
 
     Optional<Question> update(Long id, Question question);
 
-    void addQuestionToChapter(Long questionId, Long chapterId);
 }

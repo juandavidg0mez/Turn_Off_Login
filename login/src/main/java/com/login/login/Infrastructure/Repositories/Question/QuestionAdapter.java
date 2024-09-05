@@ -50,6 +50,7 @@ public class QuestionAdapter implements IQuestionService {
             eQuestion.setResponse_type(question.getResponse_type());
             eQuestion.setCommet_question(question.getCommet_question());
             eQuestion.setQuestion_text(question.getQuestion_text());
+            eQuestion.setChapters(question.getChapters());
 
             return Optional.of(questionRepository.save(eQuestion));
         } else {
@@ -57,10 +58,6 @@ public class QuestionAdapter implements IQuestionService {
         }
     }
 
-    @Override
-    public void addQuestionToChapter(Long questionId, Long chapterId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addQuestionToChapter'");
-    }
+
 
 }

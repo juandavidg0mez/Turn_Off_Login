@@ -50,6 +50,7 @@ public class SurveyAdapter implements ISurveyService {
             surveysDB.setName(surveys.getName());
             surveysDB.setAudit(surveys.getAudit());
             surveysDB.setDescription(surveys.getDescription());
+            surveysDB.setCategories(surveys.getCategories());
 
             return Optional.of(surveysRepository.save(surveysDB));
         }

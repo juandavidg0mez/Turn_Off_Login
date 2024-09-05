@@ -41,11 +41,11 @@ public class SurveysController {
         return iSurveyService.findAll();
     }
 
-    @GetMapping("/Survey/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
         Optional<Surveys> sOptional = iSurveyService.findById(id);
         if (sOptional.isPresent()) {
-            ResponseEntity.ok(sOptional.orElseThrow());
+           return ResponseEntity.ok(sOptional.orElseThrow());
         }
         // Recordemos que este Return es el Else If de la estructura de validacion por
         // eso mismo contruimos el error 400
@@ -77,17 +77,6 @@ public class SurveysController {
                                                                                              // 400 socio
     }
 
-    @PutMapping("update/{id}")
-    public ResponseEntity<?> update(@Valid @RequestBody Surveys surveys, BindingResult result, @PathVariable Long id) {
-        if (result.hasFieldErrors()) {
-            return validation(result);
-        }
-        Optional<Surveys> sOptional = iSurveyService.findById(id);
-        if (sOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(sOptional.orElseThrow());
-        }
-        return ResponseEntity.notFound().build();
-    }
 
     @PostMapping("/insertSurvey")
     public ResponseEntity<?> addCategoryToSurvey(@RequestBody SurveyDTO surveyDTO) {
@@ -100,6 +89,8 @@ public class SurveysController {
             surveys.setName(surveyDTO.getName());
             surveys.setDescription(surveyDTO.getDescription());
             surveys.setAudit(surveyDTO.getAudit());
+            //Aca recuperamos el objeto-valor que esta almacenado en cOptional
+            //Aca lo que hace es obtener el objeto Category y asignar o mandar uno
             surveys.setCategories(cOptional.get());
             Surveys createSurveys = iSurveyService.save(surveys);
 
@@ -118,5 +109,37 @@ public class SurveysController {
         });
         return ResponseEntity.badRequest().body(errors);
     }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateSurvey(@PathVariable Long id, @RequestBody SurveyDTO surveyDTO) {
+    Optional<Surveys> sOptional = iSurveyService.findById(id);
+    
+    if (sOptional.isPresent()) {
+        Surveys survey = sOptional.get();
+        
+        // Buscar la categoría correspondiente al categories_id recibido
+        Long categoryId = surveyDTO.getCategories_id();
+        Optional<Categories> cOptional = iCategoryService.findById(categoryId);
+        
+        if (cOptional.isPresent()) {
+            
+            
+            // Actualizar los campos de la encuesta
+            survey.setCategories(cOptional.get());
+            survey.setName(surveyDTO.getName());
+            survey.setDescription(surveyDTO.getDescription());
+            
+            // Guardar los cambios
+            Surveys updatedSurvey = iSurveyService.save(survey);
+            return ResponseEntity.ok(updatedSurvey);
+        } else {
+            // Si no se encuentra la categoría, devolver un error
+            return ResponseEntity.badRequest().body("La categoría no existe");
+        }
+    } else {
+        // Si no se encuentra la encuesta, devolver un error 404
+        return ResponseEntity.notFound().build();
+    }
+}
 
 }
