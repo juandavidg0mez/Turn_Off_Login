@@ -87,13 +87,32 @@ public class QuestionController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@Valid @PathVariable Long id, @RequestBody Question question){
-        Optional<Question> sOptional = iQuestionService.pickOne(id);
-        if (sOptional.isPresent()) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(sOptional.orElseThrow());
+public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody QuestionDTO questionDTO) {
+    Optional<Question> sOptional = iQuestionService.pickOne(id);
+    if (sOptional.isPresent()) {
+        Question question = sOptional.get();
+        
+        // Actualiza los campos de la entidad Question con los valores del DTO
+        question.setQuestion_number(questionDTO.getQuestion_number());
+        question.setResponse_type(questionDTO.getResponse_type());
+        question.setCommet_question(questionDTO.getCommet_question());
+        question.setQuestion_text(questionDTO.getQuestion_text());
+        
+        // Actualiza la relación con el capítulo
+        Optional<Chapters> cOptional = iChapterService.findById(questionDTO.getChapter_id());
+        if (cOptional.isPresent()) {
+            question.setChapters(cOptional.get());
+        } else {
+            return ResponseEntity.badRequest().body("Chapter not found");
         }
-        return ResponseEntity.notFound().build();
+
+        // Guarda la entidad actualizada
+        Question updatedQuestion = iQuestionService.save(question);
+        
+        return ResponseEntity.ok(updatedQuestion);
     }
+    return ResponseEntity.notFound().build();
+}
 
 
 }
