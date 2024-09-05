@@ -30,49 +30,68 @@ public class SubQuestionController {
     @PostMapping("/create")
     public ResponseEntity<?> createSubQuestion(@Valid @RequestBody SubquetionDTO subquetionDTO) {
         try {
-    
+
             SubQuestion newSubQuestion = iSubquestion.save(subquetionDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(newSubQuestion);  // Devuelve la subpregunta creada con un código 201 (CREATED)
+            return ResponseEntity.status(HttpStatus.CREATED).body(newSubQuestion); // Devuelve la subpregunta creada con
+                                                                                   // un código 201 (CREATED)
         } catch (EntityNotFoundException e) {
-            // Manejo de error 
+            // Manejo de error
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
+    // @PutMapping("/update/{id}")
+    // public ResponseEntity<?> updateSubQuestion( @Valid @RequestBody SubquetionDTO
+    // subquetionDTO,@PathVariable Long id) {
+    // try {
+    // iSubquestion.update(id, subquetionDTO);
+    // } catch (EntityNotFoundException e) {
+    // throw e;
+    // }
+    // }
     @PutMapping("/update/{id}")
-    public void updateSubQuestion( @Valid @RequestBody SubquetionDTO subquetionDTO,@PathVariable Long id) {
+    public ResponseEntity<?> updateSubQuestion(@Valid @RequestBody SubquetionDTO subquetionDTO, @PathVariable Long id) {
         try {
-            iSubquestion.update(id, subquetionDTO);  
+            // Llama al servicio para actualizar la subpregunta
+            iSubquestion.update(id, subquetionDTO);
+
+            // Si el método update no lanza excepción, se asume que la actualización fue
+            // exitosa
+            return ResponseEntity.ok("SubQuestion updated successfully");
+
         } catch (EntityNotFoundException e) {
-            throw e;
+            // Devuelve una respuesta 404 si no se encuentra la entidad
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Entity not found: " + e.getMessage());
+        } catch (Exception e) {
+            // Maneja otras posibles excepciones
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
         }
     }
 
     @GetMapping("/All")
-    public List<SubQuestion> listChapters(){
+    public List<SubQuestion> listChapters() {
         return iSubquestion.findAll();
     }
 
-     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable Long id){
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findById(@PathVariable Long id) {
         Optional<SubQuestion> cOptional = iSubquestion.findByid(id);
         if (cOptional.isPresent()) {
             return ResponseEntity.ok(iSubquestion.findByid(id));
-            
+
         }
         return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/Detele/{id}")
-    public ResponseEntity<?> deleteById(@PathVariable Long id){
+    public ResponseEntity<?> deleteById(@PathVariable Long id) {
         Optional<SubQuestion> cOptional = iSubquestion.findByid(id);
         if (cOptional.isPresent()) {
             iSubquestion.deleteById(id);
             return ResponseEntity.ok().build();
-        }else{
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
-
 
 }

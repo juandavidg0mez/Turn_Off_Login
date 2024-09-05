@@ -3,6 +3,7 @@ package com.login.login.Domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,6 +27,9 @@ public class Option_Question {
     @Embedded
     Audit audit = new Audit();
 
+    @Column(columnDefinition = "VARCHAR(50)")
+    private String optiontext;
+    
     @ManyToOne
     @JoinColumn(name = "question_id")
     @JsonIgnore
@@ -36,9 +40,5 @@ public class Option_Question {
     @JsonIgnore
     private SubQuestion subQuestion;
 
-    @ManyToOne
-    @JoinColumn(name = "option_id")
-    @JsonIgnore
-    private Option option;
-
+  
 }

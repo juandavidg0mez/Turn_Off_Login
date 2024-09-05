@@ -2,8 +2,8 @@ package com.login.login.Infrastructure.Repositories.Option;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.login.login.Domain.Option;
+import com.login.login.Domain.Option_Question;
 
-public interface OptionRepository  extends JpaRepository<Option, Long>{
-    
+public interface OptionRepository  extends JpaRepository<Option_Question, Long>{
+
 }
