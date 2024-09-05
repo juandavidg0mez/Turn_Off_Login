@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class OptionsDTO {
     private Long question_id;
     private Long SubQuestion_id;
-    private String TextOptions;
+    private String optiontext;
     @Embedded
     Audit audit = new Audit();
 }

@@ -3,12 +3,14 @@ package com.login.login.Application.Services;
 import java.util.List;
 import java.util.Optional;
 
-import com.login.login.Domain.Option;
+
+import com.login.login.Domain.Option_Question;
+import com.login.login.Domain.DTO.OptionsDTO;
 
 public interface IOptionService {
-    List<Option> findAll();
-    Option save(Option option);
-    Optional<Option> deleteById(Long id);
-    Optional<Option> findById(Long id);
-    Optional<Option> update(Long id, Option option);
+    List<Option_Question> findAll();
+    Option_Question save(OptionsDTO optionsDTO);
+    Optional<Option_Question> deleteById(Long id);
+    Optional<Option_Question> findById(Long id);
+    void update(Long id, OptionsDTO optionsDTO);
 }   
