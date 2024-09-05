@@ -3,7 +3,7 @@ package com.login.login.Domain;
 
 import java.util.List;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -44,7 +44,8 @@ public class Surveys {
 
     @Embedded
     Audit audit = new Audit();
-
+    
+    @JsonIgnore
     @OneToMany(mappedBy = "surveys", cascade = CascadeType.ALL)
     private List<Chapters> chapters;
 

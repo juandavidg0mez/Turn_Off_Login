@@ -11,6 +11,4 @@ public interface IOptionService {
     Optional<Option> deleteById(Long id);
     Optional<Option> findById(Long id);
     Optional<Option> update(Long id, Option option);
-    void addOptionToQuestion (Long optionId , Long questionId);
-    void addOptionToSub (Long optionId, Long subid);
 }   
